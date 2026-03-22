@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Sweet Lab | Premium Artisanal Sweets</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            var(--primary): #c2185b; 
+            --primary: #c2185b;
+            --primary-hover: #880e4f;
+            --bg-color: #fce4ec; 
+            --bg-alt: #ffffff;
+            --text-dark: #3e1222; 
+            --text-light: #7b3e52;
+            --glass-bg: rgba(252, 228, 236, 0.9);
+            --card-bg: #ffffff;
+            --gold: #d4af37;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-dark); overflow-x: hidden; scroll-behavior: smooth; }
+
+        /* --- Header --- */
+        header {
+            background: var(--glass-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            padding: 15px 5%; display: flex; justify-content: space-between; align-items: center;
+            position: fixed; width: 100%; top: 0; z-index: 1000;
+            box-shadow: 0 4px 30px rgba(194, 24, 91, 0.15); border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        .logo-container { display: flex; align-items: center; gap: 15px; }
+        .logo-badge {
+            background: linear-gradient(135deg, var(--primary), #e91e63); color: white;
+            font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600;
+            padding: 12px 14px; border-radius: 50%; font-size: 22px; box-shadow: 0 4px 15px rgba(194, 24, 91, 0.4);
+        }
+        .logo-text h1 { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 600; color: var(--primary); margin: 0; }
+        .logo-text p { font-size: 12px; color: var(--text-light); margin: 0; }
+
+        /* --- Hero Section --- */
+        .hero {
+            background: linear-gradient(rgba(62, 18, 34, 0.7), rgba(194, 24, 91, 0.6)), url('https://images.unsplash.com/photo-1551024601-bec78aea704b') center/cover no-repeat;
+            background-attachment: fixed; color: white; text-align: center;
+            padding: 220px 20px 150px; clip-path: polygon(0 0, 100% 0, 100% 92%, 0 100%);
+        }
+        .hero h2 { font-family: 'Playfair Display', serif; font-size: clamp(40px, 6vw, 72px); font-style: italic; margin-bottom: 20px; text-shadow: 2px 2px 15px rgba(0,0,0,0.5); animation: slideDown 1s ease-out; }
+        .hero p { font-size: clamp(16px, 2vw, 22px); max-width: 750px; margin: 0 auto; opacity: 0.95; line-height: 1.6; text-shadow: 1px 1px 8px rgba(0,0,0,0.6); animation: slideUp 1s ease-out 0.3s both; }
+
+        /* --- Sections & Layout --- */
+        .section { padding: 90px 5%; text-align: center; }
+        .section.alt { background-color: var(--bg-alt); }
+        .section-title {
+            font-family: 'Playfair Display', serif; font-size: 40px; color: var(--text-dark);
+            margin-bottom: 60px; position: relative; display: inline-block; font-style: italic;
+        }
+        .section-title::after { content: '✦'; color: var(--primary); font-size: 24px; position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%); }
+
+        /* --- Grid & Cards --- */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 35px; }
+        .card {
+            background: var(--card-bg); border-radius: 24px; overflow: hidden;
+            box-shadow: 0 10px 30px rgba(194, 24, 91, 0.1); transition: transform 0.4s ease, box-shadow 0.4s ease;
+            position: relative; border: 1px solid rgba(194, 24, 91, 0.05); text-align: left; display: flex; flex-direction: column;
+        }
+        .card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(194, 24, 91, 0.25); }
+        .img-wrapper { overflow: hidden; height: 220px; position: relative; }
+        .card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+        .card:hover img { transform: scale(1.1); }
+        .card-body { padding: 25px; display: flex; flex-direction: column; flex-grow: 1; }
+        .card h3 { font-family: 'Playfair Display', serif; font-size: 22px; margin-bottom: 8px; color: var(--text-dark); }
+        .card .desc { font-size: 13px; color: var(--text-light); line-height: 1.5; margin-bottom: 15px; flex-grow: 1; }
+        .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
+        .card .price { font-size: 20px; font-weight: 700; color: var(--primary); }
+        
+        button {
+            background: linear-gradient(135deg, var(--primary), var(--primary-hover)); color: white;
+            font-family: 'Poppins', sans-serif; font-weight: 600; padding: 10px 20px; border: none;
+            border-radius: 50px; cursor: pointer; transition: all 0.3s ease; font-size: 14px; box-shadow: 0 4px 15px rgba(194, 24, 91, 0.3);
+        }
+        button:hover { box-shadow: 0 6px 20px rgba(194, 24, 91, 0.5); transform: scale(1.05); }
+        button:active { transform: scale(0.95); }
+
+        /* --- Accolades Section --- */
+        .accolades {
+            background: var(--primary); color: white; padding: 50px 5%;
+            display: flex; flex-wrap: wrap; justify-content: space-around; gap: 30px; text-align: center;
+        }
+        .accolade-item { flex: 1; min-width: 200px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+        .accolade-icon { font-size: 40px; margin-bottom: 10px; }
+        .accolade-item h4 { font-family: 'Playfair Display', serif; font-size: 20px; margin-bottom: 5px; }
+        .accolade-item p { font-size: 13px; opacity: 0.8; }
+
+        /* --- Corporate Gifting Banner --- */
+        .gifting-banner {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1607082349566-187342175e2f') center/cover;
+            padding: 80px 5%; text-align: center; color: white; margin: 40px 5%; border-radius: 30px;
+        }
+        .gifting-banner h2 { font-family: 'Playfair Display', serif; font-size: 36px; margin-bottom: 15px; color: var(--gold); }
+        .gifting-banner p { font-size: 16px; max-width: 600px; margin: 0 auto 20px; opacity: 0.9; }
+
+        /* --- Reviews Section --- */
+        .reviews-container { display: flex; gap: 20px; overflow-x: auto; padding: 20px 0; scroll-snap-type: x mandatory; scrollbar-width: none; }
+        .reviews-container::-webkit-scrollbar { display: none; }
+        .review-card {
+            background: white; border-radius: 20px; padding: 25px; min-width: 300px; max-width: 300px;
+            scroll-snap-align: center; box-shadow: 0 10px 25px rgba(194, 24, 91, 0.08); text-align: left; border: 1px solid rgba(194,24,91,0.1);
+            animation: slideUp 0.6s ease-out forwards; opacity: 0; position: relative;
+        }
+        .stars { color: var(--gold); font-size: 18px; margin-bottom: 10px; }
+        .review-text { font-size: 14px; font-style: italic; color: var(--text-light); margin-bottom: 15px; padding-right: 15px; }
+        .reviewer-name { font-weight: 600; color: var(--text-dark); font-size: 15px; }
+        
+        /* Delete Button for Reviews */
+        .delete-btn {
+            position: absolute; top: 15px; right: 15px; background: none; border: none;
+            color: #ff4d4f; font-size: 22px; cursor: pointer; box-shadow: none; padding: 0;
+            width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;
+            border-radius: 50%; transition: background 0.2s;
+        }
+        .delete-btn:hover { background: #ffe5e5; transform: scale(1.1); box-shadow: none; }
+        
+        /* Review Form */
+        .review-form-wrapper {
+            background: white; max-width: 600px; margin: 50px auto 0; padding: 30px;
+            border-radius: 20px; box-shadow: 0 15px 35px rgba(194,24,91,0.1); text-align: left;
+        }
+        .review-form-wrapper h3 { font-family: 'Playfair Display', serif; color: var(--primary); margin-bottom: 20px; font-size: 24px; text-align: center; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 14px; margin-bottom: 5px; font-weight: 500; }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 10px; font-family: 'Poppins', sans-serif; transition: border 0.3s;
+        }
+        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--primary); }
+        .form-btn { width: 100%; padding: 15px; font-size: 16px; margin-top: 10px; }
+
+        /* --- Shop More Button --- */
+        .shop-more-btn {
+            display: inline-block; background: transparent; color: var(--primary); text-decoration: none;
+            font-weight: 600; font-size: 16px; padding: 15px 40px; border-radius: 50px; border: 2px solid var(--primary);
+            transition: all 0.3s ease; margin-top: 50px;
+        }
+        .shop-more-btn:hover { background: var(--primary); color: white; transform: translateY(-3px); }
+
+        /* --- Floating Cart --- */
+        #cartBox {
+            position: fixed; right: 30px; bottom: 30px; background: var(--glass-bg); backdrop-filter: blur(20px);
+            padding: 25px; width: 320px; box-shadow: 0 15px 50px rgba(62, 18, 34, 0.15); border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.8); z-index: 1000; transition: transform 0.3s ease;
+        }
+        #cartBox h3 { font-family: 'Playfair Display', serif; font-size: 20px; border-bottom: 2px dashed rgba(194, 24, 91, 0.3); padding-bottom: 10px; margin-bottom: 15px; }
+        #items { max-height: 200px; overflow-y: auto; margin-bottom: 15px; padding-right: 5px; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 14px; font-weight: 600; }
+        .cart-total { font-size: 18px; font-weight: 700; display: flex; justify-content: space-between; margin-bottom: 20px; }
+
+        /* --- Footer --- */
+        footer { background: var(--text-dark); color: var(--bg-color); text-align: center; padding: 40px 20px; font-size: 14px; margin-top: 50px; }
+        footer span { color: var(--primary); font-size: 18px; }
+
+        /* --- Utilities --- */
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 768px) {
+            header { flex-direction: column; gap: 10px; padding: 15px; }
+            .hero { padding-top: 180px; }
+            #cartBox { bottom: 15px; right: 15px; width: calc(100% - 30px); }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo-container">
+        <div class="logo-badge">SL</div>
+        <div class="logo-text">
+            <h1>The Sweet Lab</h1>
+            <p>Exotic Flavors, Traditional Roots</p>
+        </div>
+    </div>
+</header>
+
+<section class="hero">
+    <h2>A Symphony of Sweetness</h2>
+    <p>Experience the magic of authentic Indian traditions blended with exotic flavors. Crafted with pure ghee, rich saffron, and absolute love.</p>
+</section>
+
+<section class="section">
+    <h2 class="section-title reveal">Local Delights</h2>
+    <div class="grid">
+        <div class="card reveal">
+            <div class="img-wrapper"><img src="https://www.olddelhifoods.com/wp-content/uploads/2023/05/motichoorladoo.jpg" alt="Motichoor Ladoo"></div>
+            <div class="card-body">
+                <h3>Shahi Motichoor</h3>
+                <p class="desc">Tiny, golden gram flour pearls slow-roasted in pure desi ghee and garnished with pistachios.</p>
+                <div class="card-footer"><span class="price">₹ 600</span><button onclick="addItem('Shahi Motichoor', 600)">+ Add</button></div>
+            </div>
+        </div>
+        <div class="card reveal" style="transition-delay: 0.1s;">
+            <div class="img-wrapper"><img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e" alt="Mysore Pak"></div>
+            <div class="card-body">
+                <h3>Royal Mysore Pak</h3>
+                <p class="desc">A rich, porous fudge born in the royal kitchens, dripping with the aroma of roasted gram flour.</p>
+                <div class="card-footer"><span class="price">₹ 900</span><button onclick="addItem('Royal Mysore Pak', 900)">+ Add</button></div>
+            </div>
+        </div>
+        <div class="card reveal" style="transition-delay: 0.2s;">
+            <div class="img-wrapper"><img src="https://maamithas.com/cdn/shop/files/generated-image_1.png?v=1757532311&width=600" alt="Besan Ladoo"></div>
+            <div class="card-body">
+                <h3>Classic Besan Ladoo</h3>
+                <p class="desc">Homestyle comfort. Roasted chickpea flour, cardamom, and ghee rolled into perfect spheres.</p>
+                <div class="card-footer"><span class="price">₹ 550</span><button onclick="addItem('Besan Ladoo', 550)">+ Add</button></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section alt">
+    <h2 class="section-title reveal">The Exotics</h2>
+    <div class="grid">
+        <div class="card reveal">
+            <div class="img-wrapper"><img src="https://scontent.fixc1-11.fna.fbcdn.net/v/t39.30808-6/518272886_10171920348135438_2387158872703037682_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=YSbjdEha74cQ7kNvwGMVGcM&_nc_oc=AdpxWb0anriSg26SBHPijxymO6V1au_jC5mrtMM7fk3M9fM9TNrq4hw6LDWMOx6JnFo&_nc_zt=23&_nc_ht=scontent.fixc1-11.fna&_nc_gid=LYpgRMJwATdW3VW2oMSjEw&_nc_ss=7a30f&oh=00_AfyO85phpDdqNuOYOke2AR4Q0775DRU6RRB5OSzXfKfb3A&oe=69C59D1C" alt="Almond Rose Peda"></div>
+            <div class="card-body">
+                <h3>Almond Rose Peda</h3>
+                <p class="desc">Delicate milk fudge infused with crushed roasted almonds and natural rose water essence.</p>
+                <div class="card-footer"><span class="price">₹ 550</span><button onclick="addItem('Almond Rose Peda', 550)">+ Add</button></div>
+            </div>
+        </div>
+        <div class="card reveal" style="transition-delay: 0.1s;">
+            <div class="img-wrapper"><img src="https://www.recipe-times.com/wp-content/uploads/2024/10/angoori-rasbhari-768x435.jpg" alt="Saffron Rasbhori"></div>
+            <div class="card-body">
+                <h3>Saffron Rasbhori</h3>
+                <p class="desc">Pillowy cottage cheese dumplings soaked in a fragrant rose and saffron infused syrup.</p>
+                <div class="card-footer"><span class="price">₹ 450</span><button onclick="addItem('Saffron Rasbhori', 450)">+ Add</button></div>
+            </div>
+        </div>
+        <div class="card reveal" style="transition-delay: 0.2s;">
+            <div class="img-wrapper"><img src="https://images.unsplash.com/photo-1587314168485-3236d6710814" alt="Baklava"></div>
+            <div class="card-body">
+                <h3>Pistachio Baklava</h3>
+                <p class="desc">Layers of flaky phyllo dough filled with chopped nuts and sweetened with honey syrup.</p>
+                <div class="card-footer"><span class="price">₹ 1100</span><button onclick="addItem('Pistachio Baklava', 1100)">+ Add</button></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <h2 class="section-title reveal">Delicacy Cuisines</h2>
+    <div class="grid">
+        <div class="card reveal">
+            <div class="img-wrapper"><img src="https://m.media-amazon.com/images/I/81TdkkdK5rL._SX679_.jpg" alt="Kaju Katli"></div>
+            <div class="card-body">
+                <h3>Silver Kaju Katli</h3>
+                <p class="desc">Premium cashew fudge delicately adorned with edible silver leaf. Melt-in-your-mouth perfection.</p>
+                <div class="card-footer"><span class="price">₹ 800</span><button onclick="addItem('Silver Kaju Katli', 800)">+ Add</button></div>
+            </div>
+        </div>
+        <div class="card reveal" style="transition-delay: 0.1s;">
+            <div class="img-wrapper"><img src="https://lifearoundthetable.ca/wp-content/uploads/2024/01/strawberry-chocolate-truffles-002.jpg" alt="Chocolate Cake"></div>
+            <div class="card-body">
+                <h3>Strawberry Truffle</h3>
+                <p class="desc">Decadent chocolate layers infused with a fresh, tangy strawberry compote center.</p>
+                <div class="card-footer"><span class="price">₹ 1200</span><button onclick="addItem('Strawberry Truffle', 1200)">+ Add</button></div>
+            </div>
+        </div>
+        <div class="card reveal" style="transition-delay: 0.2s;">
+            <div class="img-wrapper"><img src="https://images.unsplash.com/photo-1582176604856-e824b4736522" alt="Chocolates"></div>
+            <div class="card-body">
+                <h3>Artisan Bonbons</h3>
+                <p class="desc">Handcrafted chocolate bonbons filled with traditional Indian spices like cardamom and chilli.</p>
+                <div class="card-footer"><span class="price">₹ 1500</span><button onclick="addItem('Artisan Bonbons', 1500)">+ Add</button></div>
+            </div>
+        </div>
+    </div>
+    <a href="shop.html" class="shop-more-btn reveal">Explore Full Menu →</a>
+</section>
+
+<section class="gifting-banner reveal">
+    <h2>Corporate & Festive Gifting</h2>
+    <p>Leave a lasting impression with our customizable, premium sweet hampers. Perfect for Diwali, weddings, and corporate events.</p>
+    <button style="background: var(--gold); color: #000;">Enquire Now</button>
+</section>
+
+<section class="accolades reveal">
+    <div class="accolade-item">
+        <div class="accolade-icon">🏆</div>
+        <h4>Best Sweet Shop '25</h4>
+        <p>National Culinary Awards</p>
+    </div>
+    <div class="accolade-item">
+        <div class="accolade-icon">⭐</div>
+        <h4>100,000+</h4>
+        <p>Happy Customers</p>
+    </div>
+    <div class="accolade-item">
+        <div class="accolade-icon">🌿</div>
+        <h4>100% Pure Ingredients</h4>
+        <p>FSSAI Certified</p>
+    </div>
+    <div class="accolade-item">
+        <div class="accolade-icon">✈️</div>
+        <h4>Pan-India Delivery</h4>
+        <p>Freshness Guaranteed</p>
+    </div>
+</section>
+
+<section class="section alt">
+    <h2 class="section-title reveal">Voices of Sweetness</h2>
+    
+    <div class="reviews-container reveal" id="reviewsContainer">
+        </div>
+
+    <div class="review-form-wrapper reveal">
+        <h3>Leave a Sweet Review</h3>
+        <form id="reviewForm">
+            <div class="form-group">
+                <label>Your Name</label>
+                <input type="text" id="reviewerName" required placeholder="E.g. Priya Sharma">
+            </div>
+            <div class="form-group">
+                <label>Rating</label>
+                <select id="reviewRating">
+                    <option value="5">⭐⭐⭐⭐⭐ (5/5)</option>
+                    <option value="4">⭐⭐⭐⭐ (4/5)</option>
+                    <option value="3">⭐⭐⭐ (3/5)</option>
+                    <option value="2">⭐⭐ (2/5)</option>
+                    <option value="1">⭐ (1/5)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Your Experience</label>
+                <textarea id="reviewText" rows="3" required placeholder="Tell us what you loved!"></textarea>
+            </div>
+            <button type="submit" class="form-btn">Submit Review ✨</button>
+        </form>
+    </div>
+</section>
+
+<footer>
+    © 2026 The Sweet Lab | Crafted with <span>♥</span> & Tradition
+</footer>
+
+<div id="cartBox">
+    <h3>Your Cart 🛒</h3>
+    <div id="items"></div>
+    <div class="cart-total">
+        <span>Total:</span> 
+        <span style="color: var(--primary);">₹<span id="cartTotal">0</span></span>
+    </div>
+    <button style="width: 100%; padding: 14px; font-size: 16px;" onclick="goToCart()">Proceed to Checkout</button>
+</div>
+
+<script>
+    // --- Cart Logic ---
+    let cartList = JSON.parse(localStorage.getItem("cart")) || []
+
+    function addItem(name, price){
+        let found = cartList.find(x => x.name === name)
+        if(found) found.qty++
+        else cartList.push({name, price, qty:1})
+        
+        localStorage.setItem("cart", JSON.stringify(cartList))
+        updateCartUI()
+        
+        const cartBox = document.getElementById('cartBox');
+        cartBox.style.transform = 'scale(1.06)';
+        setTimeout(() => cartBox.style.transform = 'scale(1)', 250);
+    }
+
+    function goToCart() { window.location.href = "cart.html"; }
+
+    function updateCartUI(){
+        let itemsDiv = document.getElementById("items")
+        let total = 0
+        itemsDiv.innerHTML = ""
+
+        if(cartList.length === 0) {
+            itemsDiv.innerHTML = "<p style='color: var(--text-light); font-size: 13px; text-align: center; padding: 10px 0;'>Your cart is empty.</p>";
+        }
+
+        cartList.forEach(item => {
+            total += item.price * item.qty
+            itemsDiv.innerHTML += `
+                <div class="cart-item">
+                    <span>${item.name} <span style="color:var(--text-light); font-size:12px;">(x${item.qty})</span></span>
+                    <span>₹${item.price * item.qty}</span>
+                </div>
+            `
+        })
+        document.getElementById("cartTotal").innerText = total
+    }
+    updateCartUI()
+
+    // --- Reviews Logic (Now with Delete Feature) ---
+    // Added unique IDs to each review to track them properly for deletion
+    const initialReviews = [
+        { id: 1, name: "Aarav M.", rating: 5, text: "The sweets are out of this world! Delivered fresh and warm." },
+        { id: 2, name: "Sneha P.", rating: 5, text: "Ordered the Corporate Hamper for Diwali. The packaging is pure luxury." },
+        { id: 3, name: "Vikram S.", rating: 4, text: "Kaju Katli melts in the mouth. Just wish delivery was a bit faster." }
+    ];
+
+    let userReviews = JSON.parse(localStorage.getItem("sweet_reviews")) || initialReviews;
+
+    function renderReviews() {
+        const container = document.getElementById("reviewsContainer");
+        container.innerHTML = ""; 
+        
+        [...userReviews].reverse().forEach((rev, index) => {
+            let stars = "★".repeat(rev.rating) + "☆".repeat(5 - rev.rating);
+            let delay = index * 0.1; 
+            container.innerHTML += `
+                <div class="review-card" style="animation-delay: ${delay}s">
+                    <button class="delete-btn" onclick="deleteReview(${rev.id})" title="Remove Review">×</button>
+                    <div class="stars">${stars}</div>
+                    <p class="review-text">"${rev.text}"</p>
+                    <p class="reviewer-name">- ${rev.name}</p>
+                </div>
+            `;
+        });
+    }
+
+    // New Delete Function
+    function deleteReview(idToDelete) {
+        // Filter out the review that matches the ID
+        userReviews = userReviews.filter(review => review.id !== idToDelete);
+        // Save the updated list to local storage
+        localStorage.setItem("sweet_reviews", JSON.stringify(userReviews));
+        // Re-render the display
+        renderReviews();
+    }
+
+    document.getElementById("reviewForm").addEventListener("submit", function(e) {
+        e.preventDefault(); 
+        
+        const newReview = {
+            id: Date.now(), // Unique ID generated by timestamp
+            name: document.getElementById("reviewerName").value,
+            rating: parseInt(document.getElementById("reviewRating").value),
+            text: document.getElementById("reviewText").value
+        };
+
+        userReviews.push(newReview);
+        localStorage.setItem("sweet_reviews", JSON.stringify(userReviews));
+        
+        renderReviews(); 
+        this.reset(); 
+    });
+
+    renderReviews(); 
+
+    // --- Scroll Reveal Animation ---
+    document.addEventListener('DOMContentLoaded', () => {
+        const reveals = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); 
+                }
+            });
+        }, { threshold: 0.1 });
+
+        reveals.forEach(reveal => revealObserver.observe(reveal));
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Sweet Lab | The Grand Menu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #c2185b; 
+            --primary-hover: #880e4f;
+            --bg-color: #fce4ec; 
+            --bg-alt: #ffffff;
+            --text-dark: #3e1222; 
+            --text-light: #7b3e52;
+            --glass-bg: rgba(252, 228, 236, 0.9);
+            --card-bg: #ffffff;
+            --gold: #d4af37;
+            
+            /* Category Colors for Borders */
+            --cat-sweets: #c2185b;
+            --cat-namkeen: #e65100;
+            --cat-bakery: #795548;
+            --cat-hampers: #673ab7;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-dark); overflow-x: hidden; }
+
+        /* --- Header --- */
+        header {
+            background: var(--glass-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            padding: 15px 5%; display: flex; justify-content: space-between; align-items: center;
+            position: fixed; width: 100%; top: 0; z-index: 1000;
+            box-shadow: 0 4px 30px rgba(194, 24, 91, 0.15); border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        .logo-container { display: flex; align-items: center; gap: 15px; text-decoration: none; }
+        .logo-badge {
+            background: linear-gradient(135deg, var(--primary), #e91e63); color: white;
+            font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600;
+            padding: 12px 14px; border-radius: 50%; font-size: 22px; box-shadow: 0 4px 15px rgba(194, 24, 91, 0.4);
+        }
+        .logo-text h1 { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 600; color: var(--primary); margin: 0; }
+        .logo-text p { font-size: 12px; color: var(--text-light); margin: 0; }
+
+        /* --- Shop Layout --- */
+        .shop-header {
+            padding: 140px 5% 40px; text-align: center; background: linear-gradient(135deg, var(--bg-color), #f8bbd0);
+            border-bottom: 1px solid rgba(194, 24, 91, 0.1);
+        }
+        .shop-header h2 { font-family: 'Playfair Display', serif; font-size: 42px; color: var(--text-dark); font-style: italic; }
+        .shop-header p { color: var(--text-light); font-size: 16px; margin-top: 10px; max-width: 600px; margin-left: auto; margin-right: auto;}
+
+        .shop-container { display: flex; gap: 30px; padding: 40px 5%; align-items: flex-start; }
+
+        /* --- Sidebar & Filters --- */
+        .sidebar {
+            flex: 0 0 280px; background: white; padding: 30px; border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(194, 24, 91, 0.08); position: sticky; top: 100px; border: 1px solid rgba(194,24,91,0.1);
+        }
+        
+        /* New Back Link in Sidebar */
+        .back-link {
+            display: inline-block; margin-bottom: 25px; color: var(--primary);
+            text-decoration: none; font-weight: 600; font-size: 15px; transition: all 0.3s ease;
+        }
+        .back-link:hover { transform: translateX(-5px); color: var(--primary-hover); }
+
+        .search-box { margin-bottom: 30px; }
+        .search-box input {
+            width: 100%; padding: 12px 15px; border: 1px solid #f48fb1; border-radius: 50px;
+            font-family: 'Poppins', sans-serif; font-size: 14px; outline: none; transition: all 0.3s;
+        }
+        .search-box input:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(194, 24, 91, 0.2); }
+
+        .filter-section h3 { font-family: 'Playfair Display', serif; font-size: 20px; margin-bottom: 15px; color: var(--primary); border-bottom: 2px dashed #fce4ec; padding-bottom: 10px; }
+        .category-list { list-style: none; }
+        .category-list li {
+            padding: 10px 15px; margin-bottom: 8px; border-radius: 10px; cursor: pointer;
+            transition: all 0.3s ease; font-weight: 500; font-size: 15px; color: var(--text-light);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .category-list li:hover { background: #fce4ec; color: var(--primary); }
+        .category-list li.active { background: var(--primary); color: white; box-shadow: 0 4px 10px rgba(194, 24, 91, 0.3); }
+
+        /* --- Photo-less Product Grid --- */
+        .product-grid { flex: 1; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
+        
+        .card {
+            background: var(--card-bg); border-radius: 16px; padding: 25px;
+            box-shadow: 0 5px 20px rgba(194, 24, 91, 0.05); transition: all 0.3s ease;
+            border: 1px solid rgba(194, 24, 91, 0.08); display: flex; flex-direction: column; 
+            position: relative; overflow: hidden; animation: slideUp 0.5s ease-out forwards;
+        }
+        
+        .card[data-category="Sweets"] { border-top: 4px solid var(--cat-sweets); }
+        .card[data-category="Namkeen"] { border-top: 4px solid var(--cat-namkeen); }
+        .card[data-category="Bakery"] { border-top: 4px solid var(--cat-bakery); }
+        .card[data-category="Hampers"] { border-top: 4px solid var(--cat-hampers); }
+
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(194, 24, 91, 0.15); }
+
+        .watermark {
+            position: absolute; right: -10px; top: -20px; font-family: 'Playfair Display', serif;
+            font-size: 100px; font-weight: 700; color: var(--primary); opacity: 0.04; user-select: none;
+            transition: all 0.3s ease;
+        }
+        .card:hover .watermark { transform: scale(1.1) rotate(5deg); opacity: 0.07; }
+
+        .card-header { margin-bottom: 12px; position: relative; z-index: 1;}
+        .card h3 { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--text-dark); margin-bottom: 5px; }
+        
+        .tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 15px; }
+        .tag { 
+            font-size: 10px; font-weight: 600; padding: 4px 10px; border-radius: 20px; 
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .tag-ghee { background: #fff8e1; color: #ff8f00; }
+        .tag-best { background: #ffebee; color: #c62828; }
+        .tag-spicy { background: #fbe9e7; color: #d84315; }
+        .tag-vegan { background: #e8f5e9; color: #2e7d32; }
+        .tag-premium { background: #f3e5f5; color: #6a1b9a; }
+
+        .card .desc { font-size: 13px; color: var(--text-light); line-height: 1.6; margin-bottom: 20px; flex-grow: 1; position: relative; z-index: 1;}
+        
+        .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; border-top: 1px dashed rgba(194,24,91,0.2); padding-top: 15px; position: relative; z-index: 1;}
+        .card .price { font-size: 20px; font-weight: 700; color: var(--primary); }
+        
+        button {
+            background: white; color: var(--primary); border: 2px solid var(--primary);
+            font-family: 'Poppins', sans-serif; font-weight: 600; padding: 6px 20px; 
+            border-radius: 50px; cursor: pointer; transition: all 0.3s ease; font-size: 13px;
+        }
+        button:hover { background: var(--primary); color: white; transform: scale(1.05); }
+        button:active { transform: scale(0.95); }
+
+        .no-results { grid-column: 1 / -1; text-align: center; padding: 50px; font-size: 18px; color: var(--text-light); font-style: italic; }
+
+        /* --- Floating Cart --- */
+        #cartBox {
+            position: fixed; right: 30px; bottom: 30px; background: var(--glass-bg); backdrop-filter: blur(20px);
+            padding: 25px; width: 320px; box-shadow: 0 15px 50px rgba(62, 18, 34, 0.15); border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.8); z-index: 1000; transition: transform 0.3s ease;
+        }
+        #cartBox h3 { font-family: 'Playfair Display', serif; font-size: 20px; border-bottom: 2px dashed rgba(194, 24, 91, 0.3); padding-bottom: 10px; margin-bottom: 15px; }
+        #items { max-height: 200px; overflow-y: auto; margin-bottom: 15px; padding-right: 5px; }
+        #items::-webkit-scrollbar { width: 4px; }
+        #items::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 14px; font-weight: 600; }
+        .cart-total { font-size: 18px; font-weight: 700; display: flex; justify-content: space-between; margin-bottom: 20px; }
+
+        /* --- Footer --- */
+        footer { background: var(--text-dark); color: var(--bg-color); text-align: center; padding: 40px 20px; font-size: 14px; margin-top: 50px; }
+        footer span { color: var(--primary); font-size: 18px; }
+        .footer-link { color: white; text-decoration: none; font-weight: 600; transition: color 0.3s; display: inline-block; margin-bottom: 20px; }
+        .footer-link:hover { color: var(--primary); }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 900px) {
+            .shop-container { flex-direction: column; }
+            .sidebar { flex: none; width: 100%; position: static; margin-bottom: 20px; }
+            #cartBox { bottom: 15px; right: 15px; width: calc(100% - 30px); }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="index.html" class="logo-container">
+        <div class="logo-badge">SL</div>
+        <div class="logo-text">
+            <h1>The Sweet Lab</h1>
+            <p>Crafting Happiness</p>
+        </div>
+    </a>
+</header>
+
+<div class="shop-header">
+    <h2>The Grand Menu</h2>
+    <p>Explore our artisanal collection. Crafted with pure ingredients, authentic recipes, and unparalleled hygiene.</p>
+</div>
+
+<div class="shop-container">
+    <aside class="sidebar">
+        <a href="index.html" class="back-link">← Return to Home</a>
+
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search menu..." onkeyup="filterMenu()">
+        </div>
+        
+        <div class="filter-section">
+            <h3>Categories</h3>
+            <ul class="category-list">
+                <li class="active" onclick="setCategory('All', this)">All Delights <span>✦</span></li>
+                <li onclick="setCategory('Sweets', this)">Traditional Sweets</li>
+                <li onclick="setCategory('Namkeen', this)">Savory Namkeen</li>
+                <li onclick="setCategory('Bakery', this)">Bakery & Cakes</li>
+                <li onclick="setCategory('Hampers', this)">Gift Hampers</li>
+            </ul>
+        </div>
+    </aside>
+
+    <main class="product-grid" id="productGrid"></main>
+</div>
+
+<footer>
+    <a href="index.html" class="footer-link">← Back to Home Page</a><br>
+    © 2026 The Sweet Lab | Crafted with <span>♥</span> & Tradition
+</footer>
+
+<div id="cartBox">
+    <h3>Your Cart 🛒</h3>
+    <div id="items"></div>
+    <div class="cart-total">
+        <span>Total:</span> 
+        <span style="color: var(--primary);">₹<span id="cartTotal">0</span></span>
+    </div>
+    <button style="width: 100%; padding: 14px; font-size: 16px; background: var(--primary); color: white;" onclick="goToCart()">Proceed to Checkout</button>
+</div>
+
+<script>
+    // --- Photo-less Database with Tags & Watermarks ---
+    const allProducts = [
+        // SWEETS
+        { name: "Silver Kaju Katli", cat: "Sweets", price: 800, wm: "K", tags: ["Best Seller", "Premium"], desc: "Premium cashew fudge delicately adorned with edible silver leaf. Melt-in-your-mouth perfection." },
+        { name: "Shahi Motichoor", cat: "Sweets", price: 600, wm: "M", tags: ["Pure Ghee", "Best Seller"], desc: "Tiny, golden gram flour pearls slow-roasted in pure desi ghee and garnished with pistachios." },
+        { name: "Royal Mysore Pak", cat: "Sweets", price: 900, wm: "R", tags: ["Pure Ghee", "Premium"], desc: "A rich, porous fudge born in the royal kitchens, dripping with the aroma of roasted gram flour." },
+        { name: "Almond Rose Peda", cat: "Sweets", price: 550, wm: "P", tags: ["Floral"], desc: "Delicate milk fudge infused with crushed roasted almonds and natural rose water essence." },
+        { name: "Saffron Rasbhori", cat: "Sweets", price: 450, wm: "S", tags: ["Contains Dairy"], desc: "Spongy, pillowy cottage cheese dumplings soaked in a fragrant rose and saffron infused syrup." },
+        { name: "Classic Gulab Jamun", cat: "Sweets", price: 400, wm: "G", tags: ["Classic"], desc: "Deep-fried khoya balls soaked in warm, cardamom-spiced sugar syrup." },
+        { name: "Besan Ladoo", cat: "Sweets", price: 550, wm: "B", tags: ["Pure Ghee"], desc: "Homestyle comfort. Roasted chickpea flour, cardamom, and ghee rolled into perfect spheres." },
+        { name: "Malai Kalakand", cat: "Sweets", price: 700, wm: "K", tags: ["Contains Dairy"], desc: "Juicy, grainy milk cake squares topped with finely chopped pistachios." },
+        { name: "Soan Papdi", cat: "Sweets", price: 350, wm: "S", tags: ["Classic"], desc: "Crispy, flaky, melt-in-the-mouth sweet flavored with cardamom and almonds." },
+        { name: "Agra Petha", cat: "Sweets", price: 300, wm: "A", tags: ["Vegan"], desc: "Translucent soft candy made from ash gourd, available in classic and saffron flavors." },
+        { name: "Rajasthani Ghevar", cat: "Sweets", price: 850, wm: "G", tags: ["Seasonal", "Premium"], desc: "Traditional disc-shaped sweet cake made with flour and soaked in sugar syrup." },
+        { name: "Rasmalai", cat: "Sweets", price: 600, wm: "R", tags: ["Best Seller"], desc: "Soft cottage cheese discs bathed in thickened, sweetened milk flavored with saffron." },
+
+        // NAMKEEN
+        { name: "Bikaneri Bhujia", cat: "Namkeen", price: 250, wm: "B", tags: ["Spicy", "Vegan"], desc: "Authentic, crispy strands made from moth bean flour and a secret blend of desert spices." },
+        { name: "Moong Dal", cat: "Namkeen", price: 200, wm: "M", tags: ["Vegan"], desc: "Perfectly salted, crunchy, fried split green gram. A light and classic tea-time snack." },
+        { name: "Navratan Mixture", cat: "Namkeen", price: 300, wm: "N", tags: ["Spicy"], desc: "A royal mix of nine savory, spicy ingredients including lentils, peanuts, and sev." },
+        { name: "Khatta Meetha", cat: "Namkeen", price: 220, wm: "K", tags: ["Sweet & Sour"], desc: "A delightful sweet and sour blend of sev, green peas, and coated peanuts." },
+        { name: "Punjabi Mathri", cat: "Namkeen", price: 300, wm: "P", tags: ["Classic"], desc: "Flaky, savory biscuits heavily flavored with carom seeds and black pepper." },
+        { name: "Mini Dry Samosa", cat: "Namkeen", price: 350, wm: "S", tags: ["Spicy", "Best Seller"], desc: "Bite-sized crispy samosas generously filled with a tangy, spicy dry masala mix." },
+        { name: "Butter Chakli", cat: "Namkeen", price: 260, wm: "C", tags: ["Crispy"], desc: "Crunchy, spiral savory snack made with rice flour and a generous dollop of butter." },
+        { name: "Diet Chivda", cat: "Namkeen", price: 200, wm: "D", tags: ["Low Fat", "Vegan"], desc: "Roasted flattened rice lightly tossed with turmeric, peanuts, and mild spices." },
+
+        // BAKERY
+        { name: "Strawberry Truffle", cat: "Bakery", price: 1200, wm: "T", tags: ["Premium", "Eggless"], desc: "Decadent dark chocolate layers infused with a fresh, tangy strawberry compote center." },
+        { name: "Butter Cookies", cat: "Bakery", price: 450, wm: "B", tags: ["Classic"], desc: "Melt-in-mouth artisanal butter cookies baked to a perfect golden brown." },
+        { name: "Nankhatai", cat: "Bakery", price: 350, wm: "N", tags: ["Eggless"], desc: "Traditional Indian shortbread cookies richly flavored with cardamom and ghee." },
+        { name: "Rich Fruit Cake", cat: "Bakery", price: 800, wm: "F", tags: ["Contains Egg"], desc: "Dense, moist cake packed with candied fruits, raisins, and crunchy walnuts." },
+        { name: "Fudge Brownie", cat: "Bakery", price: 200, wm: "B", tags: ["Best Seller"], desc: "Gooey, dense chocolate brownie topped with roasted walnuts." },
+
+        // HAMPERS
+        { name: "Artisan Bonbons", cat: "Hampers", price: 1500, wm: "A", tags: ["Premium Box"], desc: "Handcrafted chocolate bonbons filled with traditional Indian spices like cardamom and chilli." },
+        { name: "The Maharaani Hamper", cat: "Hampers", price: 3500, wm: "M", tags: ["Ultimate Gift"], desc: "The grand festive box containing a curated assortment of our finest exotic sweets and dry fruits." },
+        { name: "Corporate Elegance", cat: "Hampers", price: 2200, wm: "C", tags: ["Corporate"], desc: "A sleek, minimalist box containing assorted premium sweets and imported dry fruits." }
+    ];
+
+    let currentCategory = "All";
+
+    function getTagClass(tag) {
+        if (["Pure Ghee"].includes(tag)) return "tag-ghee";
+        if (["Best Seller", "Ultimate Gift"].includes(tag)) return "tag-best";
+        if (["Spicy"].includes(tag)) return "tag-spicy";
+        if (["Vegan", "Eggless", "Low Fat"].includes(tag)) return "tag-vegan";
+        if (["Premium", "Corporate", "Premium Box"].includes(tag)) return "tag-premium";
+        return "tag-ghee"; 
+    }
+
+    function renderMenu(products) {
+        const grid = document.getElementById("productGrid");
+        grid.innerHTML = "";
+
+        if (products.length === 0) {
+            grid.innerHTML = `<div class="no-results">Oops! We couldn't find any sweetness matching your search.</div>`;
+            return;
+        }
+
+        products.forEach(item => {
+            let tagsHTML = item.tags.map(tag => `<span class="tag ${getTagClass(tag)}">${tag}</span>`).join('');
+
+            grid.innerHTML += `
+                <div class="card" data-category="${item.cat}">
+                    <div class="watermark">${item.wm}</div>
+                    <div class="card-header">
+                        <h3>${item.name}</h3>
+                    </div>
+                    <div class="tags">
+                        <span class="tag" style="background:#f1f5f9; color:#475569;">${item.cat}</span>
+                        ${tagsHTML}
+                    </div>
+                    <p class="desc">${item.desc}</p>
+                    <div class="card-footer">
+                        <span class="price">₹ ${item.price}</span>
+                        <button onclick="addItem('${item.name}', ${item.price})">+ Add to Cart</button>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    function setCategory(category, element) {
+        currentCategory = category;
+        document.querySelectorAll('.category-list li').forEach(li => li.classList.remove('active'));
+        element.classList.add('active');
+        filterMenu();
+    }
+
+    function filterMenu() {
+        const query = document.getElementById("searchInput").value.toLowerCase();
+        const filtered = allProducts.filter(item => {
+            const matchesCategory = (currentCategory === "All") || (item.cat === currentCategory);
+            const matchesSearch = item.name.toLowerCase().includes(query) || item.desc.toLowerCase().includes(query);
+            return matchesCategory && matchesSearch;
+        });
+        renderMenu(filtered);
+    }
+
+    let cartList = JSON.parse(localStorage.getItem("cart")) || [];
+
+    function addItem(name, price){
+        let found = cartList.find(x => x.name === name);
+        if(found) found.qty++;
+        else cartList.push({name, price, qty:1});
+        
+        localStorage.setItem("cart", JSON.stringify(cartList));
+        updateCartUI();
+        
+        const cartBox = document.getElementById('cartBox');
+        cartBox.style.transform = 'scale(1.06)';
+        setTimeout(() => cartBox.style.transform = 'scale(1)', 250);
+    }
+
+    function goToCart() { window.location.href = "cart.html"; }
+
+    function updateCartUI(){
+        let itemsDiv = document.getElementById("items");
+        let total = 0;
+        itemsDiv.innerHTML = "";
+
+        if(cartList.length === 0) {
+            itemsDiv.innerHTML = "<p style='color: var(--text-light); font-size: 13px; text-align: center; padding: 10px 0;'>Your cart is empty.</p>";
+        }
+
+        cartList.forEach(item => {
+            total += item.price * item.qty;
+            itemsDiv.innerHTML += `
+                <div class="cart-item">
+                    <span>${item.name} <span style="color:var(--text-light); font-size:12px;">(x${item.qty})</span></span>
+                    <span>₹${item.price * item.qty}</span>
+                </div>
+            `;
+        });
+        document.getElementById("cartTotal").innerText = total;
+    }
+
+    renderMenu(allProducts);
+    updateCartUI();
+</script>
+
+</body>
+</html>

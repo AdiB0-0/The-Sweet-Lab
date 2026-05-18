@@ -8,7 +8,6 @@
     
     <style>
         :root {
-            var(--primary): #c2185b; 
             --primary: #c2185b;
             --primary-hover: #880e4f;
             --bg-color: #fce4ec; 
@@ -30,7 +29,7 @@
             position: fixed; width: 100%; top: 0; z-index: 1000;
             box-shadow: 0 4px 30px rgba(194, 24, 91, 0.15); border-bottom: 1px solid rgba(255, 255, 255, 0.5);
         }
-        .logo-container { display: flex; align-items: center; gap: 15px; }
+        .logo-container { display: flex; align-items: center; gap: 15px; cursor: pointer; text-decoration: none; }
         .logo-badge {
             background: linear-gradient(135deg, var(--primary), #e91e63); color: white;
             font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600;
@@ -38,6 +37,26 @@
         }
         .logo-text h1 { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 600; color: var(--primary); margin: 0; }
         .logo-text p { font-size: 12px; color: var(--text-light); margin: 0; }
+
+        .header-nav { display: flex; align-items: center; gap: 15px; }
+        
+        .nav-btn {
+            background: transparent; color: var(--primary); border: 2px solid var(--primary);
+            font-family: 'Poppins', sans-serif; font-weight: 600; padding: 8px 20px; border-radius: 50px;
+            cursor: pointer; transition: all 0.3s ease; font-size: 14px; box-shadow: none;
+        }
+        .nav-btn:hover { background: var(--primary); color: white; }
+        
+        .elite-btn { border-color: var(--gold); color: var(--gold); }
+        .elite-btn:hover { background: var(--gold); color: #000; }
+
+        .auth-btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-hover)); color: white;
+            font-family: 'Poppins', sans-serif; font-weight: 600; padding: 10px 24px; border: none;
+            border-radius: 50px; cursor: pointer; transition: all 0.3s ease; font-size: 14px; 
+            box-shadow: 0 4px 15px rgba(194, 24, 91, 0.3);
+        }
+        .auth-btn:hover { box-shadow: 0 6px 20px rgba(194, 24, 91, 0.5); transform: translateY(-2px); }
 
         /* --- Hero Section --- */
         .hero {
@@ -63,6 +82,7 @@
             background: var(--card-bg); border-radius: 24px; overflow: hidden;
             box-shadow: 0 10px 30px rgba(194, 24, 91, 0.1); transition: transform 0.4s ease, box-shadow 0.4s ease;
             position: relative; border: 1px solid rgba(194, 24, 91, 0.05); text-align: left; display: flex; flex-direction: column;
+            cursor: pointer;
         }
         .card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(194, 24, 91, 0.25); }
         .img-wrapper { overflow: hidden; height: 220px; position: relative; }
@@ -71,16 +91,15 @@
         .card-body { padding: 25px; display: flex; flex-direction: column; flex-grow: 1; }
         .card h3 { font-family: 'Playfair Display', serif; font-size: 22px; margin-bottom: 8px; color: var(--text-dark); }
         .card .desc { font-size: 13px; color: var(--text-light); line-height: 1.5; margin-bottom: 15px; flex-grow: 1; }
-        .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
+        .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; border-top: 1px dashed rgba(194, 24, 91, 0.15); padding-top: 15px;}
         .card .price { font-size: 20px; font-weight: 700; color: var(--primary); }
         
-        button {
-            background: linear-gradient(135deg, var(--primary), var(--primary-hover)); color: white;
-            font-family: 'Poppins', sans-serif; font-weight: 600; padding: 10px 20px; border: none;
-            border-radius: 50px; cursor: pointer; transition: all 0.3s ease; font-size: 14px; box-shadow: 0 4px 15px rgba(194, 24, 91, 0.3);
+        .view-btn {
+            background: transparent; color: var(--primary); border: none;
+            font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 13px; cursor: pointer;
+            transition: color 0.3s;
         }
-        button:hover { box-shadow: 0 6px 20px rgba(194, 24, 91, 0.5); transform: scale(1.05); }
-        button:active { transform: scale(0.95); }
+        .card:hover .view-btn { color: var(--primary-hover); }
 
         /* --- Accolades Section --- */
         .accolades {
@@ -112,7 +131,6 @@
         .review-text { font-size: 14px; font-style: italic; color: var(--text-light); margin-bottom: 15px; padding-right: 15px; }
         .reviewer-name { font-weight: 600; color: var(--text-dark); font-size: 15px; }
         
-        /* Delete Button for Reviews */
         .delete-btn {
             position: absolute; top: 15px; right: 15px; background: none; border: none;
             color: #ff4d4f; font-size: 22px; cursor: pointer; box-shadow: none; padding: 0;
@@ -121,7 +139,6 @@
         }
         .delete-btn:hover { background: #ffe5e5; transform: scale(1.1); box-shadow: none; }
         
-        /* Review Form */
         .review-form-wrapper {
             background: white; max-width: 600px; margin: 50px auto 0; padding: 30px;
             border-radius: 20px; box-shadow: 0 15px 35px rgba(194,24,91,0.1); text-align: left;
@@ -130,10 +147,14 @@
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; font-size: 14px; margin-bottom: 5px; font-weight: 500; }
         .form-group input, .form-group select, .form-group textarea {
-            width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 10px; font-family: 'Poppins', sans-serif; transition: border 0.3s;
+            width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 10px; font-family: 'Poppins', sans-serif; transition: border 0.3s; background: #fafafa;
         }
-        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--primary); }
-        .form-btn { width: 100%; padding: 15px; font-size: 16px; margin-top: 10px; }
+        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--primary); background: white;}
+        .form-btn { 
+            width: 100%; padding: 15px; font-size: 16px; margin-top: 10px; border: none; border-radius: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-hover)); color: white; cursor: pointer; font-family: 'Poppins', sans-serif; font-weight: 600; transition: transform 0.2s;
+        }
+        .form-btn:hover { transform: translateY(-2px); }
 
         /* --- Shop More Button --- */
         .shop-more-btn {
@@ -143,20 +164,25 @@
         }
         .shop-more-btn:hover { background: var(--primary); color: white; transform: translateY(-3px); }
 
-        /* --- Floating Cart --- */
-        #cartBox {
-            position: fixed; right: 30px; bottom: 30px; background: var(--glass-bg); backdrop-filter: blur(20px);
-            padding: 25px; width: 320px; box-shadow: 0 15px 50px rgba(62, 18, 34, 0.15); border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.8); z-index: 1000; transition: transform 0.3s ease;
-        }
-        #cartBox h3 { font-family: 'Playfair Display', serif; font-size: 20px; border-bottom: 2px dashed rgba(194, 24, 91, 0.3); padding-bottom: 10px; margin-bottom: 15px; }
-        #items { max-height: 200px; overflow-y: auto; margin-bottom: 15px; padding-right: 5px; }
-        .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 14px; font-weight: 600; }
-        .cart-total { font-size: 18px; font-weight: 700; display: flex; justify-content: space-between; margin-bottom: 20px; }
-
         /* --- Footer --- */
         footer { background: var(--text-dark); color: var(--bg-color); text-align: center; padding: 40px 20px; font-size: 14px; margin-top: 50px; }
         footer span { color: var(--primary); font-size: 18px; }
+
+        /* --- User Dropdown --- */
+        .user-box {
+            position: relative; display: inline-block; cursor: pointer; font-weight: 600; padding: 10px 15px;
+            color: var(--primary); border: 1px solid rgba(194, 24, 91, 0.2); border-radius: 50px; background: white;
+            transition: all 0.3s;
+        }
+        .user-box:hover { background: var(--bg-color); }
+        .dropdown {
+            display: none; position: absolute; right: 0; top: calc(100% + 10px);
+            background: white; border-radius: 16px; box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            overflow: hidden; min-width: 160px; z-index: 1000; border: 1px solid rgba(194, 24, 91, 0.05);
+        }
+        .dropdown div { padding: 12px 20px; font-size: 14px; font-weight: 500; color: var(--text-dark); cursor: pointer; transition: background 0.2s; }
+        .dropdown div:hover { background: #fce4ec; color: var(--primary); }
+        .user-box:hover .dropdown { display: block; }
 
         /* --- Utilities --- */
         .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
@@ -165,20 +191,27 @@
         @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
         @media (max-width: 768px) {
-            header { flex-direction: column; gap: 10px; padding: 15px; }
+            header { flex-direction: column; gap: 15px; padding: 15px; }
             .hero { padding-top: 180px; }
-            #cartBox { bottom: 15px; right: 15px; width: calc(100% - 30px); }
         }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="logo-container">
+    <a href="index.html" class="logo-container">
         <div class="logo-badge">SL</div>
         <div class="logo-text">
             <h1>The Sweet Lab</h1>
             <p>Exotic Flavors, Traditional Roots</p>
+        </div>
+    </a>
+    <div class="header-nav">
+        <button id="eliteNavBtn" class="nav-btn elite-btn" onclick="window.location.href='membership.html'">👑 Elite</button>
+        <button class="nav-btn" onclick="window.location.href='shop.html'">Menu</button>
+        <button class="nav-btn" onclick="window.location.href='cart.html'">Cart</button>
+        <div id="authArea">
+            <button class="auth-btn" onclick="goToAuth()">Login / Sign Up</button>
         </div>
     </div>
 </header>
@@ -191,28 +224,28 @@
 <section class="section">
     <h2 class="section-title reveal">Local Delights</h2>
     <div class="grid">
-        <div class="card reveal">
+        <div class="card reveal" onclick="window.location.href='shop.html?id=1'">
             <div class="img-wrapper"><img src="https://www.olddelhifoods.com/wp-content/uploads/2023/05/motichoorladoo.jpg" alt="Motichoor Ladoo"></div>
             <div class="card-body">
                 <h3>Shahi Motichoor</h3>
                 <p class="desc">Tiny, golden gram flour pearls slow-roasted in pure desi ghee and garnished with pistachios.</p>
-                <div class="card-footer"><span class="price">₹ 600</span><button onclick="addItem('Shahi Motichoor', 600)">+ Add</button></div>
+                <div class="card-footer"><span class="price">₹ 600</span><button class="view-btn">View Details →</button></div>
             </div>
         </div>
-        <div class="card reveal" style="transition-delay: 0.1s;">
+        <div class="card reveal" style="transition-delay: 0.1s;" onclick="window.location.href='shop.html?id=2'">
             <div class="img-wrapper"><img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e" alt="Mysore Pak"></div>
             <div class="card-body">
                 <h3>Royal Mysore Pak</h3>
                 <p class="desc">A rich, porous fudge born in the royal kitchens, dripping with the aroma of roasted gram flour.</p>
-                <div class="card-footer"><span class="price">₹ 900</span><button onclick="addItem('Royal Mysore Pak', 900)">+ Add</button></div>
+                <div class="card-footer"><span class="price">₹ 900</span><button class="view-btn">View Details →</button></div>
             </div>
         </div>
-        <div class="card reveal" style="transition-delay: 0.2s;">
+        <div class="card reveal" style="transition-delay: 0.2s;" onclick="window.location.href='shop.html?id=6'">
             <div class="img-wrapper"><img src="https://maamithas.com/cdn/shop/files/generated-image_1.png?v=1757532311&width=600" alt="Besan Ladoo"></div>
             <div class="card-body">
                 <h3>Classic Besan Ladoo</h3>
                 <p class="desc">Homestyle comfort. Roasted chickpea flour, cardamom, and ghee rolled into perfect spheres.</p>
-                <div class="card-footer"><span class="price">₹ 550</span><button onclick="addItem('Besan Ladoo', 550)">+ Add</button></div>
+                <div class="card-footer"><span class="price">₹ 550</span><button class="view-btn">View Details →</button></div>
             </div>
         </div>
     </div>
@@ -221,28 +254,28 @@
 <section class="section alt">
     <h2 class="section-title reveal">The Exotics</h2>
     <div class="grid">
-        <div class="card reveal">
-            <div class="img-wrapper"><img src="https://scontent.fixc1-11.fna.fbcdn.net/v/t39.30808-6/518272886_10171920348135438_2387158872703037682_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=e06c5d&_nc_ohc=YSbjdEha74cQ7kNvwGMVGcM&_nc_oc=AdpxWb0anriSg26SBHPijxymO6V1au_jC5mrtMM7fk3M9fM9TNrq4hw6LDWMOx6JnFo&_nc_zt=23&_nc_ht=scontent.fixc1-11.fna&_nc_gid=LYpgRMJwATdW3VW2oMSjEw&_nc_ss=7a30f&oh=00_AfyO85phpDdqNuOYOke2AR4Q0775DRU6RRB5OSzXfKfb3A&oe=69C59D1C" alt="Almond Rose Peda"></div>
+        <div class="card reveal" onclick="window.location.href='shop.html?id=3'">
+            <div class="img-wrapper"><img src="https://images.unsplash.com/photo-1601303516534-bf4b7d0c7a5b?w=700&q=80" alt="Almond Rose Peda"></div>
             <div class="card-body">
                 <h3>Almond Rose Peda</h3>
                 <p class="desc">Delicate milk fudge infused with crushed roasted almonds and natural rose water essence.</p>
-                <div class="card-footer"><span class="price">₹ 550</span><button onclick="addItem('Almond Rose Peda', 550)">+ Add</button></div>
+                <div class="card-footer"><span class="price">₹ 550</span><button class="view-btn">View Details →</button></div>
             </div>
         </div>
-        <div class="card reveal" style="transition-delay: 0.1s;">
+        <div class="card reveal" style="transition-delay: 0.1s;" onclick="window.location.href='shop.html?id=4'">
             <div class="img-wrapper"><img src="https://5.imimg.com/data5/SELLER/Default/2024/12/476746204/DM/XS/KC/71342032/kesar-rasbhari-1000x1000.png" alt="Saffron Rasbhori"></div>
             <div class="card-body">
                 <h3>Saffron Rasbhori</h3>
                 <p class="desc">Pillowy cottage cheese dumplings soaked in a fragrant rose and saffron infused syrup.</p>
-                <div class="card-footer"><span class="price">₹ 450</span><button onclick="addItem('Saffron Rasbhori', 450)">+ Add</button></div>
+                <div class="card-footer"><span class="price">₹ 450</span><button class="view-btn">View Details →</button></div>
             </div>
         </div>
-        <div class="card reveal" style="transition-delay: 0.2s;">
-            <div class="img-wrapper"><img src="https://images.unsplash.com/photo-1587314168485-3236d6710814" alt="Baklava"></div>
+        <div class="card reveal" style="transition-delay: 0.2s;" onclick="window.location.href='shop.html?id=24'">
+            <div class="img-wrapper"><img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=700&q=80" alt="Fudge Brownie"></div>
             <div class="card-body">
-                <h3>Pistachio Baklava</h3>
-                <p class="desc">Layers of flaky phyllo dough filled with chopped nuts and sweetened with honey syrup.</p>
-                <div class="card-footer"><span class="price">₹ 1100</span><button onclick="addItem('Pistachio Baklava', 1100)">+ Add</button></div>
+                <h3>Fudge Brownie</h3>
+                <p class="desc">Gooey, dense chocolate brownie topped with roasted walnuts. Pure fudge perfection.</p>
+                <div class="card-footer"><span class="price">₹ 200</span><button class="view-btn">View Details →</button></div>
             </div>
         </div>
     </div>
@@ -251,28 +284,28 @@
 <section class="section">
     <h2 class="section-title reveal">Delicacy Cuisines</h2>
     <div class="grid">
-        <div class="card reveal">
+        <div class="card reveal" onclick="window.location.href='shop.html?id=0'">
             <div class="img-wrapper"><img src="https://m.media-amazon.com/images/I/81TdkkdK5rL._SX679_.jpg" alt="Kaju Katli"></div>
             <div class="card-body">
                 <h3>Silver Kaju Katli</h3>
                 <p class="desc">Premium cashew fudge delicately adorned with edible silver leaf. Melt-in-your-mouth perfection.</p>
-                <div class="card-footer"><span class="price">₹ 800</span><button onclick="addItem('Silver Kaju Katli', 800)">+ Add</button></div>
+                <div class="card-footer"><span class="price">₹ 800</span><button class="view-btn">View Details →</button></div>
             </div>
         </div>
-        <div class="card reveal" style="transition-delay: 0.1s;">
+        <div class="card reveal" style="transition-delay: 0.1s;" onclick="window.location.href='shop.html?id=20'">
             <div class="img-wrapper"><img src="https://lifearoundthetable.ca/wp-content/uploads/2024/01/strawberry-chocolate-truffles-002.jpg" alt="Chocolate Cake"></div>
             <div class="card-body">
                 <h3>Strawberry Truffle</h3>
                 <p class="desc">Decadent chocolate layers infused with a fresh, tangy strawberry compote center.</p>
-                <div class="card-footer"><span class="price">₹ 1200</span><button onclick="addItem('Strawberry Truffle', 1200)">+ Add</button></div>
+                <div class="card-footer"><span class="price">₹ 1200</span><button class="view-btn">View Details →</button></div>
             </div>
         </div>
-        <div class="card reveal" style="transition-delay: 0.2s;">
+        <div class="card reveal" style="transition-delay: 0.2s;" onclick="window.location.href='shop.html?id=25'">
             <div class="img-wrapper"><img src="https://images.unsplash.com/photo-1582176604856-e824b4736522" alt="Chocolates"></div>
             <div class="card-body">
                 <h3>Artisan Bonbons</h3>
                 <p class="desc">Handcrafted chocolate bonbons filled with traditional Indian spices like cardamom and chilli.</p>
-                <div class="card-footer"><span class="price">₹ 1500</span><button onclick="addItem('Artisan Bonbons', 1500)">+ Add</button></div>
+                <div class="card-footer"><span class="price">₹ 1500</span><button class="view-btn">View Details →</button></div>
             </div>
         </div>
     </div>
@@ -282,7 +315,7 @@
 <section class="gifting-banner reveal">
     <h2>Corporate & Festive Gifting</h2>
     <p>Leave a lasting impression with our customizable, premium sweet hampers. Perfect for Diwali, weddings, and corporate events.</p>
-    <button style="background: var(--gold); color: #000;">Enquire Now</button>
+    <button class="auth-btn" style="background: var(--gold); color: #000; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);" onclick="window.location.href='shop.html?id=26'">Explore Hampers</button>
 </section>
 
 <section class="accolades reveal">
@@ -311,8 +344,7 @@
 <section class="section alt">
     <h2 class="section-title reveal">Voices of Sweetness</h2>
     
-    <div class="reviews-container reveal" id="reviewsContainer">
-        </div>
+    <div class="reviews-container reveal" id="reviewsContainer"></div>
 
     <div class="review-form-wrapper reveal">
         <h3>Leave a Sweet Review</h3>
@@ -344,59 +376,36 @@
     © 2026 The Sweet Lab | Crafted with <span>♥</span> & Tradition
 </footer>
 
-<div id="cartBox">
-    <h3>Your Cart 🛒</h3>
-    <div id="items"></div>
-    <div class="cart-total">
-        <span>Total:</span> 
-        <span style="color: var(--primary);">₹<span id="cartTotal">0</span></span>
-    </div>
-    <button style="width: 100%; padding: 14px; font-size: 16px;" onclick="goToCart()">Proceed to Checkout</button>
-</div>
-
 <script>
-    // --- Cart Logic ---
-    let cartList = JSON.parse(localStorage.getItem("cart")) || []
-
-    function addItem(name, price){
-        let found = cartList.find(x => x.name === name)
-        if(found) found.qty++
-        else cartList.push({name, price, qty:1})
+    // --- Dynamic Membership Button Text ---
+    document.addEventListener("DOMContentLoaded", () => {
+        let activeMem = JSON.parse(localStorage.getItem("sweet_membership"));
+        let eliteBtn = document.getElementById("eliteNavBtn");
         
-        localStorage.setItem("cart", JSON.stringify(cartList))
-        updateCartUI()
-        
-        const cartBox = document.getElementById('cartBox');
-        cartBox.style.transform = 'scale(1.06)';
-        setTimeout(() => cartBox.style.transform = 'scale(1)', 250);
-    }
-
-    function goToCart() { window.location.href = "cart.html"; }
-
-    function updateCartUI(){
-        let itemsDiv = document.getElementById("items")
-        let total = 0
-        itemsDiv.innerHTML = ""
-
-        if(cartList.length === 0) {
-            itemsDiv.innerHTML = "<p style='color: var(--text-light); font-size: 13px; text-align: center; padding: 10px 0;'>Your cart is empty.</p>";
+        if (activeMem && activeMem.tier && eliteBtn) {
+            if (activeMem.tier === "Platinum") {
+                eliteBtn.innerHTML = "💎 " + activeMem.tier;
+            } else if (activeMem.tier === "Silver") {
+                eliteBtn.innerHTML = "🥈 " + activeMem.tier;
+            } else if (activeMem.tier === "Gold") {
+                eliteBtn.innerHTML = "👑 " + activeMem.tier;
+            }
         }
+    });
 
-        cartList.forEach(item => {
-            total += item.price * item.qty
-            itemsDiv.innerHTML += `
-                <div class="cart-item">
-                    <span>${item.name} <span style="color:var(--text-light); font-size:12px;">(x${item.qty})</span></span>
-                    <span>₹${item.price * item.qty}</span>
-                </div>
-            `
-        })
-        document.getElementById("cartTotal").innerText = total
-    }
-    updateCartUI()
+    // --- Display Membership Discounts ---
+    document.addEventListener("DOMContentLoaded", () => {
+        let mem = JSON.parse(localStorage.getItem("sweet_membership"));
+        if (mem && mem.discount > 0) {
+            document.querySelectorAll('.price').forEach(el => {
+                let basePrice = parseInt(el.innerText.replace(/[^\d]/g, ''));
+                let discounted = Math.round(basePrice * (1 - mem.discount));
+                el.innerHTML = `<del style="font-size:14px; color:#a0aec0; margin-right:6px;">₹${basePrice}</del>₹${discounted}`;
+            });
+        }
+    });
 
-    // --- Reviews Logic (Now with Delete Feature) ---
-    // Added unique IDs to each review to track them properly for deletion
+    // --- Reviews Logic ---
     const initialReviews = [
         { id: 1, name: "Aarav M.", rating: 5, text: "The sweets are out of this world! Delivered fresh and warm." },
         { id: 2, name: "Sneha P.", rating: 5, text: "Ordered the Corporate Hamper for Diwali. The packaging is pure luxury." },
@@ -423,13 +432,9 @@
         });
     }
 
-    // New Delete Function
     function deleteReview(idToDelete) {
-        // Filter out the review that matches the ID
         userReviews = userReviews.filter(review => review.id !== idToDelete);
-        // Save the updated list to local storage
         localStorage.setItem("sweet_reviews", JSON.stringify(userReviews));
-        // Re-render the display
         renderReviews();
     }
 
@@ -437,7 +442,7 @@
         e.preventDefault(); 
         
         const newReview = {
-            id: Date.now(), // Unique ID generated by timestamp
+            id: Date.now(),
             name: document.getElementById("reviewerName").value,
             rating: parseInt(document.getElementById("reviewRating").value),
             text: document.getElementById("reviewText").value
@@ -466,6 +471,38 @@
 
         reveals.forEach(reveal => revealObserver.observe(reveal));
     });
+
+    // --- Auth Logic ---
+    function goToAuth(){
+        window.location.href = "auth.html";
+    }
+
+    function loadUser(){
+        let user = JSON.parse(localStorage.getItem("user"));
+
+        if(user){
+            let mem = JSON.parse(localStorage.getItem("sweet_membership"));
+            let badge = mem ? ` <span style="font-size:10px; background:var(--gold); color:#000; padding:2px 6px; border-radius:10px; margin-left:5px;">${mem.tier}</span>` : "";
+            
+            document.getElementById("authArea").innerHTML = `
+                <div class="user-box">
+                    <span id="userName">👤 ${user.name}${badge}</span>
+                    <div class="dropdown">
+                        <div onclick="window.location.href='membership.html'">My Membership</div>
+                        <div onclick="logout()">Logout</div>
+                    </div>
+                </div>
+            `;
+        }
+    }
+
+    function logout(){
+        localStorage.removeItem("user");
+        localStorage.removeItem("sweet_membership");
+        location.reload();
+    }
+
+    loadUser();
 </script>
 
 </body>

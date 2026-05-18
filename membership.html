@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Membership | The Sweet Lab</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #c2185b;
+            --primary-hover: #880e4f;
+            --bg-color: #fce4ec;
+            --bg-alt: #ffffff;
+            --text-dark: #3e1222;
+            --text-light: #7b3e52;
+            --glass-bg: rgba(252, 228, 236, 0.9);
+            --card-bg: #ffffff;
+            --gold: #d4af37;
+            --silver: #94a3b8;
+            --platinum: #1e293b;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-dark); overflow-x: hidden; }
+
+        /* --- Header --- */
+        header {
+            background: var(--glass-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            padding: 15px 5%; display: flex; justify-content: space-between; align-items: center;
+            position: fixed; width: 100%; top: 0; z-index: 1000;
+            box-shadow: 0 4px 30px rgba(194, 24, 91, 0.15); border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        .logo-container { display: flex; align-items: center; gap: 15px; text-decoration: none; }
+        .logo-badge {
+            background: linear-gradient(135deg, var(--primary), #e91e63); color: white;
+            font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600;
+            padding: 12px 14px; border-radius: 50%; font-size: 22px; box-shadow: 0 4px 15px rgba(194, 24, 91, 0.4);
+        }
+        .logo-text h1 { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 600; color: var(--primary); margin: 0; }
+        .logo-text p { font-size: 12px; color: var(--text-light); margin: 0; }
+
+        /* --- Page Hero --- */
+        .page-hero {
+            padding: 160px 5% 60px; text-align: center;
+            background: linear-gradient(160deg, #fce4ec 0%, #f8bbd0 60%, #fce4ec 100%);
+            border-bottom: 1px solid rgba(194,24,91,0.12);
+            position: relative; overflow: hidden;
+        }
+        .page-hero::before {
+            content: "Elite"; position: absolute; bottom: -40px; left: 50%;
+            transform: translateX(-50%); font-family: 'Playfair Display', serif;
+            font-size: 180px; font-weight: 700; color: var(--primary); opacity: 0.03;
+            white-space: nowrap; pointer-events: none; user-select: none;
+        }
+        .page-hero h2 { font-family: 'Playfair Display', serif; font-size: 46px; font-style: italic; color: var(--dark); margin-bottom: 12px; position: relative; }
+        .page-hero p { font-size: 16px; color: var(--text-light); max-width: 600px; margin: 0 auto; line-height: 1.7; position: relative; }
+
+        /* --- Pricing Container --- */
+        .pricing-section {
+            padding: 60px 5% 90px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .pricing-grid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        /* --- Pricing Cards --- */
+        .tier-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 40px 30px;
+            width: 320px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(194, 24, 91, 0.08);
+            border: 1px solid rgba(194, 24, 91, 0.05);
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .tier-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(194, 24, 91, 0.15);
+        }
+
+        /* Middle Card Highlight */
+        .tier-card.featured {
+            transform: scale(1.05);
+            border: 2px solid var(--gold);
+            box-shadow: 0 20px 50px rgba(212, 175, 55, 0.2);
+            z-index: 2;
+        }
+        .tier-card.featured:hover { transform: scale(1.05) translateY(-10px); }
+        
+        .popular-badge {
+            position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
+            background: var(--gold); color: white; padding: 6px 15px; border-radius: 20px;
+            font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+            box-shadow: 0 4px 10px rgba(212, 175, 55, 0.4);
+        }
+
+        /* Tier Headers */
+        .tier-icon { font-size: 40px; margin-bottom: 15px; }
+        .tier-name { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 600; margin-bottom: 10px; }
+        
+        .tier-card.silver .tier-name { color: var(--silver); }
+        .tier-card.gold .tier-name { color: var(--gold); }
+        .tier-card.platinum .tier-name { color: var(--platinum); }
+
+        .tier-price { font-size: 36px; font-weight: 700; color: var(--text-dark); margin-bottom: 5px; }
+        .tier-price span { font-size: 14px; font-weight: 400; color: var(--text-light); }
+        .tier-desc { font-size: 13px; color: var(--text-light); margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px dashed rgba(194, 24, 91, 0.2); }
+
+        /* Perks List */
+        .perks-list { list-style: none; text-align: left; margin-bottom: 35px; }
+        .perks-list li {
+            font-size: 14px; color: var(--text-dark); margin-bottom: 15px;
+            display: flex; align-items: flex-start; gap: 10px; font-weight: 500;
+        }
+        .perks-list li i { color: var(--primary); font-style: normal; font-weight: bold; }
+        .perks-list li.disabled { color: #cbd5e1; font-weight: 400; }
+        .perks-list li.disabled i { color: #cbd5e1; }
+
+        /* Buttons */
+        .join-btn {
+            width: 100%; padding: 14px; border-radius: 50px; font-family: 'Poppins', sans-serif;
+            font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.3s ease; border: none;
+        }
+        .tier-card.silver .join-btn { background: #f1f5f9; color: var(--text-dark); }
+        .tier-card.silver .join-btn:hover { background: var(--silver); color: white; }
+        
+        .tier-card.gold .join-btn {
+            background: linear-gradient(135deg, var(--gold), #b8962e); color: white;
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+        }
+        .tier-card.gold .join-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 25px rgba(212, 175, 55, 0.4); }
+
+        .tier-card.platinum .join-btn {
+            background: var(--platinum); color: white;
+            box-shadow: 0 8px 20px rgba(30, 41, 59, 0.3);
+        }
+        .tier-card.platinum .join-btn:hover { background: #0f172a; transform: translateY(-2px); }
+
+        /* --- Toast Notification --- */
+        #toast {
+            position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%) translateY(20px);
+            background: var(--text-dark); color: white; padding: 12px 25px; border-radius: 50px;
+            font-size: 14px; font-weight: 600; z-index: 2000; opacity: 0; pointer-events: none;
+            transition: all 0.3s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.2); text-align: center;
+        }
+        #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        footer { background: var(--text-dark); color: var(--bg-color); text-align: center; padding: 40px 20px; font-size: 14px; margin-top: 50px; }
+
+        @media (max-width: 1000px) {
+            .tier-card.featured { transform: scale(1); }
+            .tier-card.featured:hover { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="index.html" class="logo-container">
+        <div class="logo-badge">SL</div>
+        <div class="logo-text">
+            <h1>The Sweet Lab</h1>
+            <p>← Return to Home</p>
+        </div>
+    </a>
+</header>
+
+<div class="page-hero">
+    <h2>The Sweet Lab Elite</h2>
+    <p>Elevate your sweet cravings. Join our exclusive membership program to unlock members-only discounts, lightning-fast free deliveries, and seasonal artisan surprises.</p>
+</div>
+
+<div class="pricing-section">
+    <div class="pricing-grid">
+        
+        <div class="tier-card silver">
+            <div class="tier-icon">🥈</div>
+            <h3 class="tier-name">Silver Craver</h3>
+            <div class="tier-price">₹199<span> / month</span></div>
+            <p class="tier-desc">Perfect for the occasional sweet tooth.</p>
+            
+            <ul class="perks-list">
+                <li><i>✓</i> 5% Flat Discount on all orders</li>
+                <li><i>✓</i> Free Standard Delivery</li>
+                <li class="disabled"><i>✕</i> Free Express Delivery</li>
+                <li class="disabled"><i>✕</i> Early Access to New Sweets</li>
+                <li class="disabled"><i>✕</i> Annual Premium Hamper</li>
+            </ul>
+            
+            <button class="join-btn" onclick="joinTier('Silver', 0.05, false)">Join Silver</button>
+        </div>
+
+        <div class="tier-card gold featured">
+            <div class="popular-badge">Most Popular</div>
+            <div class="tier-icon">👑</div>
+            <h3 class="tier-name">Gold Connoisseur</h3>
+            <div class="tier-price">₹399<span> / month</span></div>
+            <p class="tier-desc">The sweet spot for true artisanal dessert lovers.</p>
+            
+            <ul class="perks-list">
+                <li><i>✓</i> 10% Flat Discount on all orders</li>
+                <li><i>✓</i> Free Express Delivery (Same Day)</li>
+                <li><i>✓</i> Early Access to Festive Sweets</li>
+                <li class="disabled"><i>✕</i> Annual Premium Hamper</li>
+                <li class="disabled"><i>✕</i> Priority 24/7 Support</li>
+            </ul>
+            
+            <button class="join-btn" onclick="joinTier('Gold', 0.10, true)">Join Gold Elite</button>
+        </div>
+
+        <div class="tier-card platinum">
+            <div class="tier-icon">💎</div>
+            <h3 class="tier-name">Royal Platinum</h3>
+            <div class="tier-price">₹799<span> / month</span></div>
+            <p class="tier-desc">The ultimate VIP experience for corporate & family gifters.</p>
+            
+            <ul class="perks-list">
+                <li><i>✓</i> 15% Flat Discount on all orders</li>
+                <li><i>✓</i> Free Express Delivery (Same Day)</li>
+                <li><i>✓</i> Early Access to Festive Sweets</li>
+                <li><i>✓</i> 1 Free Premium Hamper per Year</li>
+                <li><i>✓</i> Priority 24/7 Customer Support</li>
+            </ul>
+            
+            <button class="join-btn" onclick="joinTier('Platinum', 0.15, true)">Join Royal</button>
+        </div>
+
+    </div>
+</div>
+
+<footer>
+    © 2026 The Sweet Lab | Crafted with ♥ & Tradition
+</footer>
+
+<div id="toast"></div>
+
+<script>
+    // --- Membership Subscription Logic ---
+    function joinTier(tierName, discountRate, hasFreeExpress) {
+        // 1. Check if user is logged in
+        const user = JSON.parse(localStorage.getItem('user'));
+        
+        if (!user) {
+            showToast("⚠️ Please log in or create an account to join The Sweet Lab Elite!");
+            setTimeout(() => {
+                window.location.href = "auth.html";
+            }, 2000);
+            return;
+        }
+
+        // 2. Create the membership profile
+        const membershipData = {
+            tier: tierName,
+            discount: discountRate,
+            freeExpress: hasFreeExpress,
+            joinedAt: new Date().toISOString()
+        };
+
+        // 3. Save to local storage so other pages can read it
+        localStorage.setItem('sweet_membership', JSON.stringify(membershipData));
+
+        // 4. Show success message and redirect
+        showToast("🎉 Welcome to the " + tierName + " tier! Your perks are now active.");
+        
+        setTimeout(() => {
+            window.location.href = "shop.html";
+        }, 2500);
+    }
+
+    function showToast(msg) {
+        const toast = document.getElementById("toast");
+        toast.innerText = msg;
+        toast.classList.add("show");
+        setTimeout(() => {
+            toast.classList.remove("show");
+        }, 2400);
+    }
+</script>
+
+</body>
+</html>

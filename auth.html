@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome | The Sweet Lab</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #c2185b;
+            --primary-hover: #880e4f;
+            --bg-color: #fce4ec;
+            --text-dark: #3e1222;
+            --text-light: #7b3e52;
+            --card-bg: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            /* Kept your background image, but added a soft pink gradient overlay to match the brand */
+            background: linear-gradient(rgba(252, 228, 236, 0.85), rgba(252, 228, 236, 0.95)), url("https://images.unsplash.com/photo-1551024601-bec78aea704b") center/cover no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--text-dark);
+        }
+
+        .auth-container {
+            background: var(--card-bg);
+            width: 100%;
+            max-width: 420px;
+            padding: 40px 35px;
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(194, 24, 91, 0.15);
+            border: 1px solid rgba(194, 24, 91, 0.08);
+            text-align: center;
+            animation: slideUp 0.5s ease-out forwards;
+            position: relative;
+        }
+
+        /* --- Logo & Header --- */
+        .logo-badge {
+            background: linear-gradient(135deg, var(--primary), #e91e63);
+            color: white;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            font-weight: 600;
+            margin: 0 auto 20px;
+            box-shadow: 0 8px 20px rgba(194, 24, 91, 0.3);
+        }
+
+        .auth-container h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .auth-container p.subtitle {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 30px;
+        }
+
+        /* --- Inputs --- */
+        .input-group {
+            margin-bottom: 15px;
+            text-align: left;
+            transition: all 0.3s ease;
+        }
+
+        .input-group.hidden {
+            display: none;
+        }
+
+        input {
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            border: 1.5px solid #e2e8f0;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            background: #fafafa;
+            color: var(--text-dark);
+            transition: all 0.3s ease;
+        }
+
+        input::placeholder {
+            color: #a0aec0;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(194, 24, 91, 0.1);
+        }
+
+        /* --- Buttons & Links --- */
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            margin-top: 10px;
+            border-radius: 50px;
+            border: none;
+            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(194, 24, 91, 0.25);
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(194, 24, 91, 0.35);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .switch {
+            margin-top: 25px;
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .switch span {
+            color: var(--primary);
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .switch span:hover {
+            color: var(--primary-hover);
+            text-decoration: underline;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            font-size: 13px;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--primary);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="auth-container">
+        <div class="logo-badge">SL</div>
+        
+        <h2 id="title">Welcome Back</h2>
+        <p class="subtitle" id="subtitle">Log in to access your sweet account.</p>
+
+        <div class="input-group hidden" id="nameGroup">
+            <input id="name" type="text" placeholder="Full Name">
+        </div>
+        
+        <div class="input-group">
+            <input id="email" type="email" placeholder="Email Address">
+        </div>
+        
+        <div class="input-group">
+            <input id="pass" type="password" placeholder="Password">
+        </div>
+
+        <button class="submit-btn" onclick="submitForm()" id="submitBtn">Log In</button>
+
+        <div class="switch" id="switchText">
+            New to The Sweet Lab? <span onclick="toggleMode()">Create an account</span>
+        </div>
+
+        <a href="shop.html" class="back-link">← Return to Shop</a>
+    </div>
+
+    <script>
+        let isLogin = true;
+
+        function toggleMode() {
+            isLogin = !isLogin;
+            
+            // Update Text Elements
+            document.getElementById("title").innerText = isLogin ? "Welcome Back" : "Create Account";
+            document.getElementById("subtitle").innerText = isLogin ? "Log in to access your sweet account." : "Join us to experience artisanal sweetness.";
+            document.getElementById("submitBtn").innerText = isLogin ? "Log In" : "Sign Up";
+            
+            // Toggle Name Field
+            const nameGroup = document.getElementById("nameGroup");
+            if (isLogin) {
+                nameGroup.classList.add("hidden");
+            } else {
+                nameGroup.classList.remove("hidden");
+            }
+            
+            // Update Switcher Text
+            document.getElementById("switchText").innerHTML = isLogin 
+                ? 'New to The Sweet Lab? <span onclick="toggleMode()">Create an account</span>' 
+                : 'Already have an account? <span onclick="toggleMode()">Log in here</span>';
+        }
+
+        function submitForm() {
+            let name = document.getElementById("name").value;
+            let email = document.getElementById("email").value;
+            let pass = document.getElementById("pass").value;
+
+            if (!email || !pass) {
+                alert("Please fill in all required fields.");
+                return;
+            }
+
+            let users = JSON.parse(localStorage.getItem("users")) || [];
+
+            if (isLogin) {
+                let found = users.find(u => u.email === email && u.pass === pass);
+
+                if (found) {
+                    localStorage.setItem("user", JSON.stringify(found));
+                    // Redirects to shop or index based on your flow
+                    window.location.href = "shop.html"; 
+                } else {
+                    alert("Invalid email or password. Please try again.");
+                }
+
+            } else {
+                if (!name) {
+                    alert("Please enter your full name.");
+                    return;
+                }
+
+                let exists = users.find(u => u.email === email);
+                if (exists) {
+                    alert("An account with this email already exists. Please log in.");
+                    return;
+                }
+
+                let user = {name, email, pass};
+                users.push(user);
+
+                localStorage.setItem("users", JSON.stringify(users));
+                localStorage.setItem("user", JSON.stringify(user));
+
+                window.location.href = "shop.html";
+            }
+        }
+    </script>
+
+</body>
+</html>

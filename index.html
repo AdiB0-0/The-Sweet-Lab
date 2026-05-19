@@ -194,6 +194,29 @@
             header { flex-direction: column; gap: 15px; padding: 15px; }
             .hero { padding-top: 180px; }
         }
+
+        #chatBtn { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: linear-gradient(135deg, var(--primary), var(--primary-hover)); border-radius: 50%; border: none; cursor: pointer; box-shadow: 0 8px 25px rgba(194,24,91,0.4); z-index: 9999; display: flex; align-items: center; justify-content: center; font-size: 26px; color: white; transition: transform 0.3s; }
+        #chatBtn:hover { transform: scale(1.1); }
+
+        #chatWindow { display: none; position: fixed; bottom: 30px; right: 30px; width: 380px; height: 500px; background: white; border-radius: 20px; box-shadow: 0 15px 50px rgba(0,0,0,0.2); z-index: 9999; flex-direction: column; overflow: hidden; border: 1px solid rgba(194,24,91,0.1); }
+        @media (max-width: 450px) { #chatWindow { width: calc(100% - 20px); right: 10px; bottom: 10px; height: 450px; } }
+
+        .chat-header { background: linear-gradient(135deg, var(--primary), var(--primary-hover)); color: white; padding: 15px 20px; display: flex; align-items: center; justify-content: space-between; }
+        .chat-header h4 { font-family: 'Playfair Display', serif; font-size: 18px; margin: 0; }
+        .chat-header button { background: none; border: none; color: white; font-size: 20px; cursor: pointer; }
+
+        #chatMessages { flex: 1; padding: 15px; overflow-y: auto; background: #fce4ec; }
+        .chat-message { max-width: 80%; padding: 10px 14px; border-radius: 16px; margin-bottom: 10px; font-size: 14px; line-height: 1.4; }
+        .chat-message.user { background: var(--primary); color: white; margin-left: auto; border-bottom-right-radius: 4px; }
+        .chat-message.bot { background: white; color: var(--text-dark); border-bottom-left-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+        .chat-input-area { padding: 12px; background: white; border-top: 1px solid #eee; display: flex; gap: 10px; }
+        #chatInput { flex: 1; padding: 12px 16px; border: 1.5px solid #e2e8f0; border-radius: 25px; font-family: 'Poppins', sans-serif; font-size: 14px; outline: none; transition: border 0.3s; }
+        #chatInput:focus { border-color: var(--primary); }
+        #chatSend { background: var(--primary); color: white; border: none; width: 42px; height: 42px; border-radius: 50%; cursor: pointer; font-size: 18px; transition: transform 0.2s; display: flex; align-items: center; justify-content: center; }
+        #chatSend:hover { transform: scale(1.1); }
+
+        #chatLoading { display: none; text-align: center; padding: 10px; color: var(--text-light); font-size: 13px; }
     </style>
 </head>
 <body>
@@ -218,7 +241,7 @@
 
 <section class="hero">
     <h2>A Symphony of Sweetness</h2>
-    <p>Experience the magic of authentic Indian tradition blended with exotic flavors. Crafted with pure ghee, rich saffron, and absolute love.</p>
+    <p>Experience the magic of authentic Indian traditions blended with exotic flavors. Crafted with pure ghee, rich saffron, and absolute love.</p>
 </section>
 
 <section class="section">
@@ -376,6 +399,23 @@
     © 2026 The Sweet Lab | Crafted with <span>♥</span> & Tradition
 </footer>
 
+<button id="chatBtn" onclick="toggleChat()">💬</button>
+
+<div id="chatWindow">
+    <div class="chat-header">
+        <h4>🍬 Sweet Lab Assistant</h4>
+        <button onclick="toggleChat()">✕</button>
+    </div>
+    <div id="chatMessages">
+        <div class="chat-message bot">Hi! 👋 I'm your sweet assistant. Ask me about our sweets, membership perks, or help with your order!</div>
+    </div>
+    <div id="chatLoading">Thinking...</div>
+    <div class="chat-input-area">
+        <input type="text" id="chatInput" placeholder="Ask about our sweets...">
+        <button id="chatSend" onclick="sendMessage()">➤</button>
+    </div>
+</div>
+
 <script>
     // --- Dynamic Membership Button Text ---
     document.addEventListener("DOMContentLoaded", () => {
@@ -502,8 +542,9 @@
         location.reload();
     }
 
-    loadUser();
+loadUser();
 </script>
+<script src="chatbot.js"></script>
 
 </body>
 </html>
